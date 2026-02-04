@@ -136,8 +136,9 @@ Return ONLY valid JSON following the schema.
       },
     });
 
-    const raw = response.text();
+    const raw = response.response.text();
     const parsed = JSON.parse(raw);
+
 
     return {
       ...parsed,
