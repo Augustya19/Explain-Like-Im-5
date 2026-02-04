@@ -120,20 +120,53 @@ Return ONLY valid JSON following the schema.
     const response = await ai.models.generateContent({
       model: "gemini-1.5-flash",
       contents: `${levelPrompt} The topic is: "${topic}"`,
-      config: {
-        systemInstruction,
-        responseMimeType: "application/json",
-        responseSchema: {
-          type: Type.OBJECT,
-          properties: {
-            definition: { type: Type.STRING },
-            analogy: { type: Type.STRING },
-            example: { type: Type.STRING },
-            takeaway: { type: Type.STRING },
-          },
-          required: ["definition", "analogy", "example", "takeaway"],
-        },
-      },
+      export const fetchExplanation = async (
+  topic: string,
+  level: ExplanationLevel
+): Promise<ExplanationData> => {
+  try {
+    const levelPrompt = PROMPTS[level];
+
+    const prompt = `
+You are a world-class educational communicator.
+
+Explain the topic strictly at the requested level.
+
+Return ONLY valid JSON in this exact format:
+{
+  "definition": "...",
+  "analogy": "...",
+  "example": "...",
+  "takeaway": "..."
+}
+
+Topic: "${topic}"
+Explanation level: ${levelPrompt}
+    `.trim();
+
+    const response = await ai.models.generateContent({
+      model: "gemini-1.5-flash",
+      contents: prompt,
+    });
+
+    const rawText = response.response.text();
+    console.log("Gemini raw output:", rawText);
+
+    const parsed = JSON.parse(rawText);
+
+    return {
+      ...parsed,
+      topic,
+      level,
+      id: `${Date.now()}-${topic.replace(/\s+/g, "-").toLowerCase()}`,
+      timestamp: Date.now(),
+    };
+  } catch (err) {
+    console.error("Gemini explanation failed:", err);
+    throw new Error("Failed to generate explanation");
+  }
+};
+
     });
 
     const raw = response.response.text();
