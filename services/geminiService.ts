@@ -1,4 +1,4 @@
-import { GoogleGenAI, Type, Modality } from "@google/genai";
+import { GoogleGenAI, Modality } from "@google/genai";
 import { ExplanationLevel, ExplanationData } from "../types";
 import { PROMPTS } from "../constants";
 
@@ -12,9 +12,7 @@ if (!apiKey) {
   throw new Error("VITE_GEMINI_API_KEY is not defined");
 }
 
-const ai = new GoogleGenAI({
-  apiKey,
-});
+const ai = new GoogleGenAI({ apiKey });
 
 /* ===============================
    Helpers for Audio
@@ -49,7 +47,7 @@ async function decodeAudioData(
 }
 
 /* ===============================
-   Text-to-Speech (Guarded)
+   Text-to-Speech (Optional)
 ================================ */
 
 export const generateSpeech = async (
@@ -75,14 +73,9 @@ export const generateSpeech = async (
     const base64Audio =
       response.candidates?.[0]?.content?.parts?.[0]?.inlineData?.data;
 
-    if (!base64Audio) {
-      console.warn("No audio returned by Gemini");
-      return;
-    }
+    if (!base64Audio) return;
 
-    const audioCtx = new (window.AudioContext ||
-      (window as any).webkitAudioContext)({ sampleRate: 24000 });
-
+    const audioCtx = new AudioContext({ sampleRate: 24000 });
     const audioBuffer = await decodeAudioData(
       decodeBase64(base64Audio),
       audioCtx,
@@ -100,27 +93,10 @@ export const generateSpeech = async (
 };
 
 /* ===============================
-   Explanation Generator
+   Explanation Generator (FINAL)
 ================================ */
 
 export const fetchExplanation = async (
-  topic: string,
-  level: ExplanationLevel
-): Promise<ExplanationData> => {
-  try {
-    const systemInstruction = `
-You are a world-class educational communicator.
-Explain the topic strictly at the requested level.
-If the topic is vague, nonsense, or unsafe, explain why politely.
-Return ONLY valid JSON following the schema.
-    `.trim();
-
-    const levelPrompt = PROMPTS[level];
-
-    const response = await ai.models.generateContent({
-      model: "gemini-1.5-flash",
-      contents: `${levelPrompt} The topic is: "${topic}"`,
-      export const fetchExplanation = async (
   topic: string,
   level: ExplanationLevel
 ): Promise<ExplanationData> => {
@@ -153,25 +129,6 @@ Explanation level: ${levelPrompt}
     console.log("Gemini raw output:", rawText);
 
     const parsed = JSON.parse(rawText);
-
-    return {
-      ...parsed,
-      topic,
-      level,
-      id: `${Date.now()}-${topic.replace(/\s+/g, "-").toLowerCase()}`,
-      timestamp: Date.now(),
-    };
-  } catch (err) {
-    console.error("Gemini explanation failed:", err);
-    throw new Error("Failed to generate explanation");
-  }
-};
-
-    });
-
-    const raw = response.response.text();
-    const parsed = JSON.parse(raw);
-
 
     return {
       ...parsed,
