@@ -6,8 +6,14 @@ import { PROMPTS } from "../constants";
    Shared Gemini Client
 ================================ */
 
+const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
+
+if (!apiKey) {
+  throw new Error("VITE_GEMINI_API_KEY is not defined");
+}
+
 const ai = new GoogleGenAI({
-  apiKey: process.env.API_KEY,
+  apiKey,
 });
 
 /* ===============================
@@ -130,7 +136,8 @@ Return ONLY valid JSON following the schema.
       },
     });
 
-    const parsed = JSON.parse(response.text());
+    const raw = response.text();
+    const parsed = JSON.parse(raw);
 
     return {
       ...parsed,
