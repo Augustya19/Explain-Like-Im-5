@@ -1,0 +1,5 @@
+{
+  "name": "Explain It Like I'm 5 (ELI5)",
+  "description": "A portfolio-grade educational application that simplifies complex topics into three distinct levels of understanding using the Gemini AI.",
+  "requestFramePermissions": []
+}
