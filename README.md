@@ -6,7 +6,7 @@ The goal is not to be technically exhaustive, but to make sure the *core idea ac
 
 ---
 
-## The Problem
+# The Problem
 
 Most educational and technical content assumes prior knowledge.
 As a result:
