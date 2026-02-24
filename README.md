@@ -66,13 +66,17 @@ Built to make learning feel less intimidating and more human ✨
 ## Screenshots
 
 
-<img width="1107" height="734" alt="elif1" src="https://github.com/user-attachments/assets/dcb968d9-8341-4809-be1b-3e34f85c27d6" />
+<img width="1889" height="858" alt="Screenshot 2026-02-08 152242" src="https://github.com/user-attachments/assets/222fb85a-8660-46eb-aa29-56f574497f09" />
+
 
 <img width="1888" height="854" alt="Screenshot 2026-02-08 152258" src="https://github.com/user-attachments/assets/3018ac6e-40b2-468e-8a9a-afb8682b6f27" />
 
+
 <img width="1882" height="849" alt="Screenshot 2026-02-10 195317" src="https://github.com/user-attachments/assets/f3a732a6-16d1-45b6-85b4-bf5f1b78c297" />
 
+
 <img width="1891" height="856" alt="Screenshot 2026-02-10 195325" src="https://github.com/user-attachments/assets/8e1cdf7a-a9ef-4739-a1ab-8a8085c0509c" />
+
 
 <img width="1872" height="861" alt="Screenshot 2026-02-10 195415" src="https://github.com/user-attachments/assets/22180265-f4a6-4bd8-94b4-98c7da17b940" />
 
